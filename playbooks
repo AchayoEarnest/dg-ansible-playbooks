@@ -1,0 +1,61 @@
+---
+- name: Configure Web Servers and Create PR
+  hosts: your_servers
+  become: true
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+      tags:
+        - install_apache
+
+    - name: Ensure Apache is running
+      service:
+        name: apache2
+        state: started
+        enabled: true
+      tags:
+        - ensure_apache_running
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      tags:
+        - install_nginx
+
+    - name: Ensure Nginx is running
+      service:
+        name: nginx
+        state: started
+        enabled: true
+      tags:
+        - ensure_nginx_running
+
+    # configure PR
+
+    - name: Create PR for Apache
+      github_pull_request:
+        repo: your_apache_repo
+        token: your_github_token
+        title: "Update Apache Configuration"
+        body: "This PR updates the Apache configuration."
+        state: present
+        base: master
+        head: apache_config_branch
+      tags:
+        - create_apache_pr
+
+    - name: Create PR for Nginx
+      github_pull_request:
+        repo: your_nginx_repo
+        token: your_github_token
+        title: "Update Nginx Configuration"
+        body: "This PR updates the Nginx configuration."
+        state: present
+        base: master
+        head: nginx_config_branch
+      tags:
+        - create_nginx_pr
+
