@@ -1,0 +1,26 @@
+---
+- name: Update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+
+- name: Ensure /etc/nginx/sites-enabled/default is absent
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+# - name: Copy Static Website Nginx site configuration
+#   template:
+#     src: portfolio.deployguru.unsecure.com.j2
+#     dest: /etc/nginx/sites-enabled/portfolio.deployguru.com
+#   notify:
+#     - restart-nginx
+
+
+- name: Copy Static Website Nginx site configuration
+  template:
+    src: portfolio.deployguru.com.j2
+    dest: /etc/nginx/sites-enabled/portfolio.deployguru.com
+  notify:
+    - restart-nginx
+

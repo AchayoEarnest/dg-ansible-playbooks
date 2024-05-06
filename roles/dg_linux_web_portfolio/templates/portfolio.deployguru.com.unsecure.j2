@@ -1,0 +1,20 @@
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    server_name _;
+
+    location / {
+        proxy_pass https://dg-web-ue1-01.s3.amazonaws.com$request_uri;
+    }
+
+    location /template {
+        # Proxy request for index.html from S3
+        proxy_pass https://dg-web-ue1-01.s3.amazonaws.com/dg-portfolio-web/template/index.html;
+    }
+
+    location /shared_assets {
+        # Proxy request for shared assets from S3
+        proxy_pass https://dg-web-ue1-01.s3.amazonaws.com/dg-portfolio-web/shared_assets;
+    }
+}
