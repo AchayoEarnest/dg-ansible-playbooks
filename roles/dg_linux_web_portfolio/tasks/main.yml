@@ -19,7 +19,7 @@
 
 - name: Copy Static Website Nginx site configuration
   template:
-    src: portfolio.deployguru.com.j2
+    src: portfolio.deployguru.com.unsecure.j2
     dest: /etc/nginx/sites-enabled/portfolio.deployguru.com
   notify:
     - restart-nginx
